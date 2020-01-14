@@ -1,6 +1,6 @@
 package com.zksir;
 
-public class ArrayList {
+public class ArrayList<E> {
 
     /**
      * 元素的数量
@@ -10,13 +10,33 @@ public class ArrayList {
     /**
      * 所有元素
      */
-    private int[] elements;
+    private E[] elements;
 
+    /**
+     * 默认容量
+     */
+    private static final int DEFAULT_CAPACITY = 10;
+    /**
+     * 未找到元素
+     */
+    private static final int ELEMENTS_NOT_FOUND = -1;
+
+    public ArrayList(int capacity){
+        capacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
+        elements = (E[]) new Object[capacity];
+    }
+
+    public ArrayList(){
+        this(DEFAULT_CAPACITY);
+    }
     /**
      * 清除所有元素
      */
     public void clear(){
-
+        for (int i = 0; i < size; i++) {
+            elements[i] = null;
+        }
+        size = 0;
     }
 
     /**
@@ -32,7 +52,7 @@ public class ArrayList {
      * @return
      */
     public boolean isEmpty(){
-        return false;
+        return size == 0;
     }
 
     /**
@@ -40,16 +60,16 @@ public class ArrayList {
      * @param element
      * @return
      */
-    public boolean contains(int element){
-        return false;
+    public boolean contains(E element){
+        return indexOf(element) != ELEMENTS_NOT_FOUND;
     }
 
     /**
      * 添加元素到尾部
      * @param element
      */
-    public void add(int element){
-
+    public void add(E element){
+        add(size,element);
     }
 
     /**
@@ -57,8 +77,9 @@ public class ArrayList {
      * @param index
      * @return
      */
-    public int get(int index){
-        return 0;
+    public E get(int index){
+        rangeCheck(index);
+        return elements[index];
     }
 
     /**
@@ -67,8 +88,11 @@ public class ArrayList {
      * @param element
      * @return
      */
-    public int set(int index, int element){
-        return 0;
+    public E set(int index, E element){
+        rangeCheck(index);
+        E old = elements[index];
+        elements[index] = element;
+        return old;
     }
 
     /**
@@ -76,8 +100,15 @@ public class ArrayList {
      * @param index
      * @param element
      */
-    public void add(int index, int element){
+    public void add(int index, E element){
+        rangeCheckForAdd(index);
+        ensureCapacity(size + 1);
 
+        for (int i = size - 1; i >= index; i--) {
+            elements[i + 1] = elements[i];
+        }
+        elements[index] = element;
+        size++;
     }
 
     /**
@@ -85,8 +116,14 @@ public class ArrayList {
      * @param index
      * @return
      */
-    public int remove(int index) {
-        return 0;
+    public E remove(int index) {
+        rangeCheck(index);
+        E old = elements[index];
+        for (int i = index; i < size; i++) {
+            elements[i] = elements[i+1];
+        }
+        elements[--size] = null;
+        return old;
     }
 
     /**
@@ -94,8 +131,70 @@ public class ArrayList {
      * @param element
      * @return
      */
-    public int indexOf(int element){
-        return 0;
+    public int indexOf(E element){
+        if (element == null) {  // 如果是空，就比较值
+            for (int i = 0; i < size; i++) {
+                if (elements[i] == null) return i;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (element.equals(elements[i])) return i; // 否则比较对象值
+            }
+        }
+        return ELEMENTS_NOT_FOUND;
     }
 
+    private void outOfBounds(int index){
+        throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
+    }
+
+    private void rangeCheck(int index) {
+        if (index < 0 || index >= size) {
+            outOfBounds(index);
+        }
+    }
+
+    private void rangeCheckForAdd(int index) {
+        if (index < 0 || index > size) {
+            outOfBounds(index);
+        }
+    }
+
+    /**
+     * 保证capacity容量
+     * @param capacity
+     */
+    private void ensureCapacity(int capacity){
+        int oldCapacity = elements.length;
+        if (oldCapacity >= capacity) return;
+
+        //新容量为旧容量1.5倍
+        int newCapacity = oldCapacity + (oldCapacity >> 1);
+        E[] newElements = (E[]) new Object[newCapacity];
+
+        for (int i = 0; i < size; i++) {
+            newElements[i] = elements[i];
+        }
+        elements = newElements;
+
+        System.out.println(oldCapacity + "扩容为" + newCapacity);
+    }
+
+    /**
+     * 打印数组
+     * @return
+     */
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("size=").append(size).append(",[");
+        for (int i = 0; i < size; i++) {
+            if (i != 0 ) {
+                string.append(", ");
+            }
+            string.append(elements[i]);
+        }
+        string.append("]");
+        return string.toString();
+    }
 }
