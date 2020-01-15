@@ -3,11 +3,6 @@ package com.zksir;
 public class ArrayList<E> extends AbstractList<E> {
 
     /**
-     * 元素的数量
-     */
-    private int size;
-
-    /**
      * 所有元素
      */
     private E[] elements;
@@ -16,7 +11,6 @@ public class ArrayList<E> extends AbstractList<E> {
      * 默认容量
      */
     private static final int DEFAULT_CAPACITY = 10;
-
 
     public ArrayList(int capacity){
         capacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
