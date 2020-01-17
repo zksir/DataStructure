@@ -1,7 +1,10 @@
 package com.zksir;
 
 public interface List<E> {
-
+	/**
+	 * 未找到元素
+	 */
+	static final int ELEMENT_NOT_FOUND = -1;
 	/**
 	 * 清除所有元素
 	 */

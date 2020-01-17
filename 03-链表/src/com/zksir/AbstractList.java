@@ -5,10 +5,7 @@ public abstract class AbstractList<E> implements List<E>  {
 	 * 元素的数量
 	 */
 	protected int size;
-	/**
-	 * 未找到元素
-	 */
-	protected static final int ELEMENT_NOT_FOUND = -1;
+
 	/**
 	 * 元素的数量
 	 * @return

@@ -165,7 +165,7 @@ public class ArrayList2<E> extends AbstractList<E> {
     
     private void trim() {
 		int oldCapacity = elements.length;
-		//新容量为旧容量一半
+		//新容量为旧容量一半(左移一位乘以2，右移一位乘以0.5)
         int newCapacity = oldCapacity >> 1;
 		if (size >= newCapacity || oldCapacity <= DEFAULT_CAPACITY) return;
         E[] newElements = (E[]) new Object[newCapacity];
