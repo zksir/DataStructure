@@ -1,14 +1,18 @@
 package com.zksir.circle;
 
+import org.omg.CORBA.Current;
+
 import com.zksir.AbstractList;
 
 public class CircleLinkedList<E> extends AbstractList<E> {
     private Node<E> first;
     private Node<E> last;
+    private Node<E> current;
     private static class Node<E>{
         E element;
         Node<E> prev;
         Node<E> next;
+        Node<E> current;
 
         public Node(Node<E> prev,E element, Node<E> next) {
         	this.prev = prev;
@@ -37,6 +41,67 @@ public class CircleLinkedList<E> extends AbstractList<E> {
 			return sb.toString();
 		}
     }
+    
+    /**
+     * 重置节点
+     */
+    public void reset() {
+		current = first;
+	}
+    
+    /**
+     * 当前节点的下一个节点
+     * @return
+     */
+    public E next() {
+    	if (current == null) return null;
+    	
+    	current = current.next;
+		return current.element;
+	}
+    
+    /**
+     * 删除当前节点
+     * @return
+     */
+    public E remove() {
+    	if (current == null) return null;
+    	Node<E> next = current.next;
+    	E element = remove(current);
+    	if (size == 0) {
+			current = null;
+		} else {
+			current = next;
+		}
+		return element; 
+	}
+
+    /**
+     * 根据元素删除某个节点
+     * @param node
+     * @return
+     */
+    private E remove(Node<E> node) {
+    	if (size == 1) {
+			first = null;
+			last = null;
+		} else {
+	        Node<E> prev = node.prev;
+	        Node<E> next = node.next;
+	        prev.next = next;
+	        next.prev = prev;
+	        
+	        if (node == first) {// index == 0
+				first = next;
+			}
+	        if (node == last) {// index == size - 1
+				last = prev;
+			}
+		}
+        size--;
+        return node.element;
+    }
+    
     @Override
     public void clear() {
         size = 0;
@@ -94,28 +159,7 @@ public class CircleLinkedList<E> extends AbstractList<E> {
     @Override
     public E remove(int index) {
     	rangeCheck(index);
-    	
-    	Node<E> node = first;
-    	if (size == 1) {
-			first = null;
-			last = null;
-		} else {
-			node = node(index);
-	        Node<E> prev = node.prev;
-	        Node<E> next = node.next;
-	        prev.next = next;
-	        next.prev = prev;
-	        
-	        if (node == first) {// index == 0
-				first = next;
-			}
-	        if (node == last) {// index == size - 1
-				last = prev;
-			}
-		}
-
-        size--;
-        return node.element;
+        return remove(node(index));
     }
 
     @Override
