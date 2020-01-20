@@ -2,7 +2,7 @@ package com.zksir.circle;
 
 import com.zksir.AbstractList;
 
-public class SingleLinkedList<E> extends AbstractList<E> {
+public class SingleCircleLinkedList<E> extends AbstractList<E> {
     private Node<E> first;
     private static class Node<E>{
         E element;
@@ -36,10 +36,14 @@ public class SingleLinkedList<E> extends AbstractList<E> {
     public void add(int index, E element) {
     	rangeCheckForAdd(index);
         if (index == 0) {
-            first = new Node<>(element,first);
+        	Node<E> newFirst = new Node<>(element,first);
+            //拿到最后一个节点
+            Node<E> last = size == 0 ? newFirst : node(size - 1);
+            last.next = newFirst;
+            first = newFirst;
         } else {
             Node<E> prev = node(index - 1);
-            prev.next = new Node<>(element,prev.next);
+            prev.next = new Node<>(element,prev.next); 
         }
         size++;
     }
@@ -49,7 +53,13 @@ public class SingleLinkedList<E> extends AbstractList<E> {
     	rangeCheck(index);
         Node<E> node = first;
         if (index == 0) {
-            first = first.next;
+        	if (size == 1) {
+				first = null;
+			} else {
+				Node<E> last = node(size - 1);
+	            first = first.next;
+	            last.next = first;
+			}
         } else {
             Node<E> prev = node(index - 1);
             node = prev.next;
