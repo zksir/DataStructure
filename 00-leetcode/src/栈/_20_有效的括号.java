@@ -1,5 +1,6 @@
 package 栈;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 /**
@@ -9,6 +10,33 @@ import java.util.Stack;
  */
 public class _20_有效的括号 {
 	
+	private static HashMap<Character, Character> map = new HashMap<>();
+	
+	static {
+		map.put('(',')');
+		map.put('[',']');
+		map.put('{','}');
+	}
+	/**
+	 * 利用栈和hashmap实现
+	 * @param s
+	 * @return
+	 */
+    public boolean isValid3(String s) {
+    	Stack<Character> stack = new Stack<>();
+    	int len = s.length();
+    	for (int i = 0; i < len; i++) {
+			char c = s.charAt(i);
+			if (map.containsKey(c)) {//左括号入栈
+				stack.push(c);
+			} else {//右括号，将左括号出栈匹配
+				if (stack.isEmpty()) return false;
+				
+				if (c != map.get(stack.pop())) return false;
+			}
+		}
+    	return stack.isEmpty();
+    }
     public boolean isValid(String s) {
     	while (s.contains("()") || s.contains("[]") || s.contains("{}") ) {
 			s = s.replace("()", "");
@@ -37,9 +65,9 @@ public class _20_有效的括号 {
     	int len = s.length();
     	for (int i = 0; i < len; i++) {
 			char c = s.charAt(i);
-			if (c == '(' || c == '[' || c == '{') {
+			if (c == '(' || c == '[' || c == '{') {//左括号入栈
 				stack.push(c);
-			} else {
+			} else {//右括号，将左括号出栈匹配
 				if (stack.isEmpty()) return false;
 				
 				char left = stack.pop();
