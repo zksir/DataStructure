@@ -7,6 +7,10 @@
 
 03-链表
  - 抽象List设计思路
- - LinkedList实现单向链表
  - ArrayList2优化动态数组缩容
- 
+ - CircleLinkedList双向向链表
+ - SingleCircleLinkedList单向链表
+ - LinkedList双向链表实现解决约瑟夫环问题
+
+04-栈
+ - Stack利用java组合实现栈
