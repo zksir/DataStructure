@@ -19,3 +19,4 @@
  - Queue队列实现
  - Deque双端队列实现
  - CircleQueue环形队列实现
+ - CircleDeque环形双端队列实现

@@ -1,8 +1,7 @@
 package com.zksir.circle;
 
 @SuppressWarnings("unchecked")
-public class CircleQueue<E> {
-	
+public class CircleDeque<E> {
 	private int front;
 	private int size;
 	private E[] elements;
@@ -11,15 +10,16 @@ public class CircleQueue<E> {
      */
     private static final int DEFAULT_CAPACITY = 10;
     
-	public CircleQueue() {
+    public CircleDeque() {
     	elements = (E[]) new Object[DEFAULT_CAPACITY];
     }
-	
+    
 	public int size() {
 		return size;
 	}
 	
 	public void clear() {
+		
 		for (int i = 0; i < size; i++) {
 			elements[index(i)] = null;
 		}
@@ -31,13 +31,21 @@ public class CircleQueue<E> {
 		return size == 0;
 	}
 	
-	public void enQueue(E element) {
+	/**
+	 * 从尾部入队
+	 * @param element
+	 */
+	public void enQueueRear(E element) {
 		ensureCapacity(size + 1);
 		elements[index(size)] = element;
 		size++;
 	}
 	
-	public E deQueue() {
+	/**
+	 * 从头部出队
+	 * @param element
+	 */
+	public E deQueueFront() {
 		E frontElement = elements[front];
 		elements[front] = null;
 		front = index(1);
@@ -45,9 +53,45 @@ public class CircleQueue<E> {
 		return frontElement;
 	}
 	
+	/**
+	 * 从头部入队
+	 * @param element
+	 */
+	public void enQueueFront(E element) {
+		ensureCapacity(size + 1);
+		front = index(-1);
+		elements[front] = element;
+		size++;
+	}
+	
+	/**
+	 * 从尾部出队
+	 * @param element
+	 */
+	public E deQueueRear() {
+		int rearIndex = index(size - 1);
+		E rear = elements[rearIndex];
+		elements[rearIndex] = null;
+		size--;
+		return rear;
+	}
+	
+	/**
+	 * 获取头部元素
+	 * @return
+	 */
 	public E front() {
 		return elements[front];
 	}
+	
+	/**
+	 * 获取尾部元素
+	 * @return
+	 */
+	public E rear() {
+		return elements[index(size - 1)];
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder string = new StringBuilder();
@@ -67,7 +111,11 @@ public class CircleQueue<E> {
 	}
 	
 	private int index(int index) {
-		return (front + index) % elements.length;
+		index += front;
+		if (index < 0) {
+			return index + elements.length;
+		}
+		return index % elements.length;
 	}
 	
 	/**

@@ -11,6 +11,10 @@ public class Queue<E> {
 		return list.size();
 	}
 	
+	public void clear() {
+		list.clear();
+	}
+	
 	public boolean isEmpty() {
 		return list.isEmpty();
 	}
