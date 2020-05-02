@@ -3,3 +3,16 @@
 .idea/encodings.xml
 *.iml
 *.xml
+/.metadata/
+*.class
+00-leetcode/.project
+00-leetcode/.classpath
+*.prefs
+02-动态数组/.project
+02-动态数组/.classpath
+03-链表/.classpath
+03-链表/.project
+04-栈/.classpath
+04-栈/.project
+05-队列/.classpath
+05-队列/.project
