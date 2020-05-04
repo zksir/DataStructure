@@ -32,7 +32,8 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	}
 	
 	public void clear() {
-		
+		root = null;
+		size = 0;
 	}
 	
 	public void add(E element) {
@@ -72,12 +73,63 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		size++;
 	}
 	
-	public void remove() {
+	public void remove(E element) {
+		remove(node(element));
+	}
+	
+	private void remove(Node<E> node) {
+		if (node == null) return;
+		size--;
+		if (node.hasTwoChildren()) {// 度为2的节点
+			// 找到后继节点
+			Node<E> s = successor(node);
+			// 用后继节点的值覆盖度为2节点的值
+			node.element = s.element;
+			// 删除后继节点
+			node = s;
+		}
 		
+		// 删除node节点（node的度必然是0或1）
+		Node<E> replacement = node.left != null ? node.left : node.right;
+		
+		if (replacement != null) {// node是度为1的节点
+			// 更改parent
+			replacement.parent = node.parent;
+			// 更改parent的left、right的指向
+			if (node.parent == null) {// node是度为1并且是根节点
+				root = replacement;
+			} else if (node == node.parent.left) {
+				node.parent.left = replacement;
+			} else {// node == node.parent.right
+				node.parent.right = replacement;
+			} 
+		} else if (node.parent == null) {// node是叶子节点，并且是根节点
+			root = null;
+		} else {// node是叶子节点，但不是根节点 
+			if (node == node.parent.right) {
+				node.parent.right = null;
+			} else {// node == node.parent.left
+				node.parent.left = null;
+			}
+		}
+	}
+	
+	private Node<E> node(E element) {
+		Node<E> node = root;
+		while (node != null) {
+			int cmp = compare(element,node.element);
+			if (cmp == 0) return node;
+			if (cmp > 0) {
+				node = node.right;
+			} else {
+				node = node.left;
+			}
+		}
+		return null;
 	}
 	
 	public boolean contains(E element) {
-		return false;
+		return node(element) != null;
 	}
 	
 	/**
@@ -378,7 +430,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 			if (node.right != null) {
 				queue.offer(node.right);
 			} else {
-				// node.left == null && node.right == null-
+				// node.left == null && node.right == null
 				
 				// node.left != null && node.right == null
 				leaf = true;
@@ -411,4 +463,50 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 //		}
 //		return true;
 //	}
+	
+	private Node<E> predecessor(Node<E> node) {
+		if (node == null) return null;
+		
+		// 前驱节点在左子树中（left.right.right...）
+		Node<E> pNode = node.left;
+		if (pNode != null) {
+			while (pNode.right != null) {
+				pNode = pNode.right;
+			}
+			return pNode;
+		}
+		
+		// 从父节点、祖父节点中寻找前驱节点
+		while (node.parent != null && node == node.parent.left) {
+			node = node.parent;
+		}
+		
+		// node.parent == null
+		// node == node.parent.left
+		
+		return node.parent;
+	}
+	
+	private Node<E> successor(Node<E> node) {
+		if (node == null) return null;
+		
+		// 后驱节点在右子树中（right.left.left...）
+		Node<E> pNode = node.right;
+		if (pNode != null) {
+			while (pNode.left != null) {
+				pNode = pNode.left;
+			}
+			return pNode;
+		}
+		
+		// 从父节点、祖父节点中寻找后驱节点
+		while (node.parent != null && node == node.parent.right) {
+			node = node.parent;
+		}
+		
+		// node.parent == null
+		// node == node.parent.right
+		
+		return node.parent;
+	}
 }
