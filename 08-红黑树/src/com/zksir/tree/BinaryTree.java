@@ -48,6 +48,18 @@ public class BinaryTree<E> implements BinaryTreeInfo {
 		public boolean isRightChild() {
 			return parent != null && this == parent.right;
 		}
+		
+		public Node<E> sibling() {
+			if (isLeftChild()) {
+				return parent.right;
+			}
+			
+			if (isRightChild()) {
+				return parent.left;
+			}
+			
+			return null;
+		}
 	}
 		
 	protected Node<E> createNode(E element, Node<E> parent) {
@@ -156,13 +168,14 @@ public class BinaryTree<E> implements BinaryTreeInfo {
 	@Override
 	public Object string(Object node) {
 		// TODO Auto-generated method stub
-		Node<E> myNode = (Node<E>)node;
-		String parentString = "null";
-		
-		if (myNode.parent != null) {
-			parentString = myNode.parent.element.toString();
-		}
-		return myNode.element + "_p(" + parentString + ")";
+//		Node<E> myNode = (Node<E>)node;
+//		String parentString = "null";
+//		
+//		if (myNode.parent != null) {
+//			parentString = myNode.parent.element.toString();
+//		}
+//		return myNode.element + "_p(" + parentString + ")";
+		return node;
 	}
 	
 

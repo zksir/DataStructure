@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import com.zksir.printer.BinaryTrees;
 import com.zksir.tree.AVLTree;
+import com.zksir.tree.RBTree;
 
 public class Main {
 	
@@ -46,8 +47,41 @@ public class Main {
 		BinaryTrees.println(avl);
 	}
 	
+	static void test2() {
+		Integer data[] = new Integer[] {
+				45, 35, 10, 97, 84, 89, 78, 72
+		};
+		
+		RBTree<Integer> rb = new RBTree<>();
+		for (int i = 0; i < data.length; i++) {
+			rb.add(data[i]);
+		}
+		
+		BinaryTrees.println(rb);
+	}
+	static void test3() {
+		Integer data[] = new Integer[] {
+				55, 87, 56, 74, 96, 22, 62, 20, 70, 68, 90, 50
+		};
+		
+		RBTree<Integer> rb = new RBTree<>();
+		for (int i = 0; i < data.length; i++) {
+			rb.add(data[i]);
+		}
+
+		BinaryTrees.println(rb);
+
+		for (int i = 0; i < data.length; i++) {
+			rb.remove(data[i]);
+			System.out.println("---------------------------------------");
+			System.out.println("【" + data[i] + "】");
+			BinaryTrees.println(rb);
+		}
+	}
+	
+	
 	public static void main(String[] args) {
-		test();
+		test3();
 	}
 
 

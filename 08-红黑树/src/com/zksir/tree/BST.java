@@ -2,8 +2,6 @@ package com.zksir.tree;
 
 import java.util.Comparator;
 
-import com.zksir.tree.BinaryTree.Node;
-
 @SuppressWarnings("unchecked")
 public class BST<E> extends BinaryTree<E> {
 	private Comparator<E> comparator;
@@ -68,11 +66,9 @@ public class BST<E> extends BinaryTree<E> {
 	
 	/**
 	 * 删除node之后的调整
-	 * @param node 被删除的节点
+	 * @param node 被删除的节点 或者 用以取代被删除节点的子节点（当被删除节点的度为1）
 	 */
-	protected void afterRemove(Node<E> node) {
-		
-	}
+	protected void afterRemove(Node<E> node) { }
 	
 	private void remove(Node<E> node) {
 		if (node == null) return;
@@ -101,7 +97,7 @@ public class BST<E> extends BinaryTree<E> {
 				node.parent.right = replacement;
 			}
 			// 删除节点之后的处理
-			afterRemove(node);
+			afterRemove(replacement);
 		} else if (node.parent == null) {// node是叶子节点，并且是根节点
 			root = null;
 			// 删除节点之后的处理
