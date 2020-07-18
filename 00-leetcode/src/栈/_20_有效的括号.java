@@ -79,4 +79,20 @@ public class _20_有效的括号 {
     	return stack.isEmpty();
     }
     
+    public boolean isValid6(String s){
+    	Stack<Character> stack = new Stack<Character>();
+    	for (int i = 0; i < s.length(); i++) {
+    		char c = s.charAt(i);
+			if (c == '(' || c == '{' || c == '[') {
+				stack.push(c);
+			} else {
+				if (stack.isEmpty()) return false; //如果是空的，就代表直接遇到了右括号
+				char left = stack.pop();
+				if (left == '(' && c != ')') return false;
+				if (left == '[' && c != ']') return false;
+				if (left == '{' && c != '}') return false;
+			}
+		}
+    	return true;
+    }
 }
