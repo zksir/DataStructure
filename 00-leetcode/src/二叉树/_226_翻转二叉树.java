@@ -3,8 +3,6 @@ package 二叉树;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.zksir.BinarySearchTree.Node;
-
 /**
  * https://leetcode-cn.com/problems/invert-binary-tree/
  * @author Scentea
