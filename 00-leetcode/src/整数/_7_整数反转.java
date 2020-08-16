@@ -1,5 +1,8 @@
 package 整数;
 
+/**
+ * https://leetcode-cn.com/problems/reverse-integer/
+ */
 public class _7_整数反转 {
     public int reverse(int x) {
     	// int 最大值2147483647 最小值-2147483648

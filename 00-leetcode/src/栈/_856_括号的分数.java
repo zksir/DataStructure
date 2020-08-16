@@ -2,6 +2,9 @@ package 栈;
 
 import java.util.Stack;
 
+/**
+ * https://leetcode-cn.com/problems/score-of-parentheses/
+ */
 public class _856_括号的分数 {
 	
 	/**

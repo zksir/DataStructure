@@ -2,6 +2,9 @@ package 栈;
 
 import java.util.Stack;
 
+/**
+ * https://leetcode-cn.com/problems/implement-queue-using-stacks/
+ */
 public class _232_用栈实现队列 {
 	private Stack<Integer> inStack;
 	private Stack<Integer> outStack;
