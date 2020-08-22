@@ -15,7 +15,6 @@ public class _234_回文链表 {
             fast = fast.next.next;
         }
         // 反转后半段链表
-//        ListNode cur = slow;
         ListNode revNode = null;
         while (slow != null) {
             ListNode tmp = slow.next;
