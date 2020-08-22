@@ -22,7 +22,6 @@ public class _234_回文链表 {
             revNode = slow;
             slow = tmp;
         }
-        //前半段链表与后半段链表比较
         // 前半段链表的值和后半段的链表值依次进行对比，如果有对不上的立刻返回false
         while (revNode != null) {
             if (revNode.val != head.val) {
