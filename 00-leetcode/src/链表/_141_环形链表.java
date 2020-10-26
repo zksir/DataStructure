@@ -14,6 +14,13 @@ public class _141_环形链表 {
 			next = null;
 		}
 	}
+
+	/**
+	 * 思路：
+	 * 快慢指针，while循环判断fast即可，如果fast或者fast.next先为空，则代表无环
+	 * @param head
+	 * @return
+	 */
     public boolean hasCycle(ListNode head) {
     	if (head == null || head.next == null) return false;
     	

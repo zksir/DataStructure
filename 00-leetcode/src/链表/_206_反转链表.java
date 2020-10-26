@@ -16,7 +16,8 @@ public class _206_反转链表 {
 	}
 	
 	/**
-	 * 递归实现反转
+	 * 递归实现反转思路
+	 * 考虑ListNode newHead = reverseList(head.next)场景
 	 * @param head
 	 * @return
 	 */
